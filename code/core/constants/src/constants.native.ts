@@ -15,7 +15,9 @@ export const isAndroid: boolean =
   Platform.OS === 'android' || process.env.TEST_NATIVE_PLATFORM === 'android'
 export const isIos: boolean =
   Platform.OS === 'ios' || process.env.TEST_NATIVE_PLATFORM === 'ios'
+export const isTvOS: boolean =
+  Platform.OS === 'tvos' || process.env.TEST_NATIVE_PLATFORM === 'tvos'
 
-const platforms = { ios: 'ios', android: 'android' } as const
-export const currentPlatform: 'web' | 'ios' | 'native' | 'android' =
+const platforms = { ios: 'ios', android: 'android', tvos: 'tvos' } as const
+export const currentPlatform: 'web' | 'ios' | 'native' | 'android' | 'tvos' =
   platforms[Platform.OS] || 'native'

@@ -1710,7 +1710,7 @@ export type PseudoStyles = {
   exitStyle?: ViewStyle
 }
 
-export type AllPlatforms = 'web' | 'native' | 'android' | 'ios'
+export type AllPlatforms = 'web' | 'native' | 'android' | 'ios' | 'tvos'
 
 // MUST EXPORT ALL IN BETWEEN or else it expands declarations like crazy
 

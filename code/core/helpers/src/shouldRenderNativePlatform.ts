@@ -7,21 +7,24 @@ import { currentPlatform } from '@tamagui/constants'
 // `<Component native="web"` means render natively on web if possible
 // `<Component native={["web", "android"]}` means render natively on web and android if possible
 // `<Component native={["mobile"]}` means render natively on mobile (android or ios) if possible
+// `<Component native={["tv"]}` means render natively on tv (tvos or android tv) if possible
 
 export type NativePlatform =
   | 'web'
   | 'mobile' // called 'mobile' instead of 'native' because things could be 'native' to web as well
+  | 'tv' // tv platforms (tvos and android tv)
   | 'android'
   | 'ios'
+  | 'tvos'
 
-export type ExplicitNativePlatform = Exclude<NativePlatform, 'mobile'>
+export type ExplicitNativePlatform = Exclude<NativePlatform, 'mobile' | 'tv'>
 
 export type NativeValue<Platform extends NativePlatform = NativePlatform> =
   | boolean
   | Platform
   | Platform[]
 
-const ALL_PLATFORMS: ExplicitNativePlatform[] = ['web', 'android', 'ios']
+const ALL_PLATFORMS: ExplicitNativePlatform[] = ['web', 'android', 'ios', 'tvos']
 /**
  *
  * takes in what user has inputted the native-supporting component and returns the name of the native platform we should render
@@ -29,6 +32,7 @@ const ALL_PLATFORMS: ExplicitNativePlatform[] = ['web', 'android', 'ios']
  * @example ['android'] => 'android' (when current platform is android)
  * @example ['android'] => null      (when current platform is not android)
  * @example ['mobile']  => 'ios'     (when current platform is ios)
+ * @example ['tv']      => 'tvos'    (when current platform is tvos)
  *
  * @param supportedSpecificNativeValues the platforms your component/system supports
  * @param nativeProp the platforms your user is requesting you to use
@@ -65,6 +69,13 @@ function resolvePlatformNames(nativeProp: NativeValue) {
     set.add('android')
     set.add('ios')
     set.delete('mobile')
+  }
+  if (set.has('tv')) {
+    // tv means tvos and android tv (when running on tv hardware)
+    set.add('tvos')
+    // Note: android TV is detected via Platform.isTV in constants, so we include android here
+    set.add('android')
+    set.delete('tv')
   }
   return set as Set<ExplicitNativePlatform>
 }

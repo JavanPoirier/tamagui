@@ -1,5 +1,5 @@
-export type NativePlatform = 'web' | 'mobile' | 'android' | 'ios';
-export type ExplicitNativePlatform = Exclude<NativePlatform, 'mobile'>;
+export type NativePlatform = 'web' | 'mobile' | 'tv' | 'android' | 'ios' | 'tvos';
+export type ExplicitNativePlatform = Exclude<NativePlatform, 'mobile' | 'tv'>;
 export type NativeValue<Platform extends NativePlatform = NativePlatform> = boolean | Platform | Platform[];
 /**
  *
@@ -8,6 +8,7 @@ export type NativeValue<Platform extends NativePlatform = NativePlatform> = bool
  * @example ['android'] => 'android' (when current platform is android)
  * @example ['android'] => null      (when current platform is not android)
  * @example ['mobile']  => 'ios'     (when current platform is ios)
+ * @example ['tv']      => 'tvos'    (when current platform is tvos)
  *
  * @param supportedSpecificNativeValues the platforms your component/system supports
  * @param nativeProp the platforms your user is requesting you to use
