@@ -46,6 +46,24 @@ test(`nested text inherits whiteSpace from parent (for numberOfLines)`, async ({
   expect(nestedStyles.whiteSpace).toBe('nowrap')
 })
 
+test(`multi-line numberOfLines uses webkit-line-clamp with overflow hidden`, async ({
+  page,
+}) => {
+  const styles = await getStyles(page.getByTestId('multi-line-number-of-lines').first())
+
+  // should use -webkit-box display for line clamping
+  expect(styles.display).toBe('-webkit-box')
+
+  // must have overflow hidden to clip text beyond the clamped lines
+  expect(styles.overflow).toBe('hidden')
+
+  // must have webkit-line-clamp to limit lines
+  expect(styles.webkitLineClamp).toBe('2')
+
+  // should have max-width to prevent horizontal overflow in flex containers
+  expect(styles.maxWidth).toBe('100%')
+})
+
 test(`nested text inherits explicit whiteSpace from parent`, async ({ page }) => {
   const parentStyles = await getStyles(page.getByTestId('parent-whitespace').first())
   const nestedStyles = await getStyles(page.getByTestId('nested-whitespace').first())

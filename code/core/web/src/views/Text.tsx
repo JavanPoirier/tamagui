@@ -33,6 +33,12 @@ export const Text = createComponent<
   acceptsClassName: true,
   isText: true,
 
+  // numberOfLines must reach the native component as a view prop, not a style prop.
+  // This ensures it works correctly when specified inside media/platform queries.
+  accept: {
+    numberOfLines: 'prop',
+  },
+
   defaultProps:
     process.env.TAMAGUI_TARGET === 'web'
       ? undefined
@@ -53,7 +59,9 @@ export const Text = createComponent<
                 WebkitLineClamp: numberOfLines,
                 WebkitBoxOrient: 'vertical',
                 display: '-webkit-box',
+                maxWidth: '100%',
                 overflow: 'hidden',
+                textOverflow: 'ellipsis',
               }
             : null,
       },

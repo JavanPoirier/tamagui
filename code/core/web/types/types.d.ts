@@ -1472,6 +1472,11 @@ export interface StackStyleBase extends Omit<ViewStyle, keyof ExtendedBaseProps 
 }
 export interface TextStylePropsBase extends Omit<RNTextStyle, keyof ExtendedBaseProps>, ExtendedBaseProps {
     ellipsis?: boolean;
+    /**
+     * Limit the number of lines. On web, uses -webkit-line-clamp.
+     * Usable inside media queries ($md, $sm) and platform props ($platform-ios).
+     */
+    numberOfLines?: number;
     textDecorationDistance?: number;
     textOverflow?: Properties['textOverflow'];
     whiteSpace?: Properties['whiteSpace'];
@@ -1609,10 +1614,11 @@ export type StaticConfigPublic = {
         [key: string]: boolean;
     };
     /**
-     * Accept Tamagui tokens for these props (key for the prop key, val for the token category)
+     * Accept Tamagui tokens for these props (key for the prop key, val for the token category).
+     * Use 'prop' to pass the value directly to viewProps without token lookup.
      */
     accept?: {
-        [key: string]: keyof Tokens | 'style' | 'textStyle';
+        [key: string]: keyof Tokens | 'style' | 'textStyle' | 'prop';
     };
     /**
      * (compiler) If these props are encountered, leave them un-extracted.

@@ -22,6 +22,13 @@ export function TextNestedInheritance() {
         should also be truncated
       </Text>
 
+      {/* Test 8: numberOfLines > 1 should use -webkit-line-clamp */}
+      <Text testID="multi-line-number-of-lines" numberOfLines={2} width={200} color="red">
+        This is a very long text that should be truncated after two lines. It should show an
+        ellipsis at the end of the second line and hide any additional text that would appear
+        on further lines.
+      </Text>
+
       {/* Test 2: tamagui Text sets color: '$color', so nested Text should NOT inherit */}
       <Text testID="parent-color" color="blue">
         Parent blue text with
