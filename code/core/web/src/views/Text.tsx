@@ -51,6 +51,7 @@ export const Text = createComponent<
           numberOfLines >= 1
             ? {
                 maxWidth: '100%',
+                maxHeight: `${numberOfLines}lh`,
                 WebkitLineClamp: numberOfLines,
                 WebkitBoxOrient: 'vertical',
                 display: '-webkit-box',

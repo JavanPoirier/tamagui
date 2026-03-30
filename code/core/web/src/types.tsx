@@ -2469,6 +2469,13 @@ export interface StackStyleBase
 export interface TextStylePropsBase
   extends Omit<RNTextStyle, keyof ExtendedBaseProps>, ExtendedBaseProps {
   ellipsis?: boolean
+  /**
+   * Limits text to the specified number of lines with an ellipsis on overflow.
+   * On web, handled as a variant that applies -webkit-line-clamp (N >= 2) or
+   * text-overflow: ellipsis (N = 1). On native, passed through as a view prop.
+   * Placing this in TextStylePropsBase makes it available inside media/platform
+   * props such as $platform-web or $sm.
+   */
   numberOfLines?: number
   textDecorationDistance?: number
   textOverflow?: Properties['textOverflow']
