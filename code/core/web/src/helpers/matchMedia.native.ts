@@ -4,6 +4,22 @@ import { matchQuery } from './matchQuery'
 
 type Orientation = 'landscape' | 'portrait'
 
+function evaluateQuery(
+  query: string,
+  width: number,
+  height: number
+): boolean {
+  const orientation: Orientation = height > width ? 'portrait' : 'landscape'
+  return matchQuery(query, {
+    type: 'screen',
+    orientation,
+    width,
+    height,
+    'device-width': width,
+    'device-height': height,
+  })
+}
+
 class NativeMediaQueryList implements MediaQueryList {
   private listeners: Array<() => void> = []
   private unsubscribe: (() => void) | null = null
@@ -31,28 +47,12 @@ class NativeMediaQueryList implements MediaQueryList {
   }
 
   match(query: string, { width, height }: { width: number; height: number }): boolean {
-    const orientation: Orientation = height > width ? 'portrait' : 'landscape'
-    return matchQuery(query, {
-      type: 'screen',
-      orientation,
-      width,
-      height,
-      'device-width': width,
-      'device-height': height,
-    })
+    return evaluateQuery(query, width, height)
   }
 
   get matches(): boolean {
     const { width, height } = Dimensions.get('window')
-    const orientation: Orientation = height > width ? 'portrait' : 'landscape'
-    return matchQuery(this.query, {
-      type: 'screen',
-      orientation,
-      width,
-      height,
-      'device-width': width,
-      'device-height': height,
-    })
+    return evaluateQuery(this.query, width, height)
   }
 }
 

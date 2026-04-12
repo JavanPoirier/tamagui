@@ -11,7 +11,7 @@ const RE_RESOLUTION_UNIT = /(dpi|dpcm|dppx)?$/
 
 export function matchQuery(mediaQuery: string, values: Record<string, any>): boolean {
   return parseQuery(mediaQuery).some((query) => {
-    if (!query) return
+    if (!query) return false
 
     const inverse = query.inverse
 
@@ -95,11 +95,13 @@ function parseQuery(mediaQuery: string) {
       type: type ? type.toLowerCase() : 'all',
       expressions: expressions.map((expression) => {
         const captures = expression.match(RE_MQ_EXPRESSION)
-        const feature = captures![1].toLowerCase().match(RE_MQ_FEATURE)
+        if (!captures) return { modifier: null, feature: '', value: undefined }
+        const feature = captures[1].toLowerCase().match(RE_MQ_FEATURE)
+        if (!feature) return { modifier: null, feature: captures[1].toLowerCase(), value: captures[2] }
         return {
-          modifier: feature![1],
-          feature: feature![2],
-          value: captures![2],
+          modifier: feature[1],
+          feature: feature[2],
+          value: captures[2],
         }
       }),
     }
@@ -110,7 +112,9 @@ function toDecimal(ratio: string) {
   let decimal = Number(ratio)
   if (!decimal) {
     const numbers = ratio.match(/^(\d+)\s*\/\s*(\d+)$/)
-    decimal = Number(numbers![1]) / Number(numbers![2])
+    if (numbers) {
+      decimal = Number(numbers[1]) / Number(numbers[2])
+    }
   }
   return decimal
 }
