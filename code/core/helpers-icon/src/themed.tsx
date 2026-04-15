@@ -95,8 +95,10 @@ export function themed(Component: FC<IconProps>, optsIn: Options = {}) {
         }
       } else {
         resolvedStyle = {
-          overflow: 'visible',
           ...resolvedStyle,
+          // Preserve existing overflow if already set; otherwise ensure the
+          // shadow (which extends beyond the SVG bounding box) isn't clipped.
+          overflow: resolvedStyle.overflow ?? 'visible',
           filter: `drop-shadow(${dx}px ${dy}px ${blur}px ${shadowColor})`,
         }
       }

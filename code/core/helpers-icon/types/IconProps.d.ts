@@ -12,7 +12,13 @@ export type DropShadow = {
     dy?: number;
     /** Blur radius of the shadow in pixels. Defaults to `3`. */
     blur?: number;
-    /** Color of the shadow. Defaults to `'rgba(0,0,0,0.3)'`. */
+    /**
+     * Color of the shadow. Defaults to `'rgba(0,0,0,0.3)'`.
+     *
+     * On native, this value is forwarded directly to `shadowColor` and
+     * `shadowOpacity` is set to `1`, so include the desired opacity in the
+     * color itself (e.g. `'rgba(0,0,0,0.4)'` rather than `'#000'`).
+     */
     color?: string;
 };
 export type NonStyleProps = Omit<SvgProps, keyof IconStyleProps> & {
