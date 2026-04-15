@@ -8,7 +8,7 @@ import {
 import { SizableContext } from '@tamagui/sizable-context'
 
 import type { FC } from 'react'
-import type { IconProps } from './IconProps'
+import type { DropShadow, IconProps } from './IconProps'
 
 export { SizableContext }
 
@@ -41,7 +41,13 @@ export function themed(Component: FC<IconProps>, optsIn: Options = {}) {
     const styledContext = SizableContext.useStyledContext()
     const needsMedia = needsFullStyleResolution(propsIn)
 
-    const [props, style, theme] = usePropsAndStyle(propsIn, {
+    // Extract dropShadow before style resolution so it isn't forwarded to the
+    // underlying SVG element as an unknown prop.
+    const { dropShadow, ...propsWithoutShadow } = propsIn as IconProps & {
+      dropShadow?: DropShadow | boolean
+    }
+
+    const [props, style, theme] = usePropsAndStyle(propsWithoutShadow as IconProps, {
       ...opts,
       forComponent: Text,
       resolveValues: opts.resolveValues,
@@ -68,12 +74,40 @@ export function themed(Component: FC<IconProps>, optsIn: Options = {}) {
         ? getTokenValue(props.strokeWidth as any, 'size')
         : (props.strokeWidth ?? `${opts.defaultStrokeWidth}`)
 
+    let resolvedStyle: Record<string, any> = style as any
+
+    if (dropShadow) {
+      const {
+        dx = 1,
+        dy = 1,
+        blur = 3,
+        color: shadowColor = 'rgba(0,0,0,0.3)',
+      } = typeof dropShadow === 'object' ? dropShadow : {}
+
+      if (process.env.TAMAGUI_TARGET === 'native') {
+        resolvedStyle = {
+          ...resolvedStyle,
+          shadowColor,
+          shadowOffset: { width: dx, height: dy },
+          shadowRadius: blur,
+          shadowOpacity: 1,
+          elevation: blur * 2,
+        }
+      } else {
+        resolvedStyle = {
+          overflow: 'visible',
+          ...resolvedStyle,
+          filter: `drop-shadow(${dx}px ${dy}px ${blur}px ${shadowColor})`,
+        }
+      }
+    }
+
     const finalProps = {
       ...props,
       color,
       size,
       strokeWidth,
-      style: style as any,
+      style: resolvedStyle,
     }
 
     return <Component {...finalProps} />
