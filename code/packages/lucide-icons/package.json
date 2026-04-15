@@ -14129,11 +14129,17 @@
   },
   "dependencies": {
     "@tamagui/core": "workspace:*",
-    "@tamagui/helpers-icon": "workspace:*"
+    "@tamagui/helpers-icon": "workspace:*",
+    "@tamagui/react-native-svg": "workspace:*"
   },
   "peerDependencies": {
     "react": ">=19",
     "react-native-svg": ">=12"
   },
-  "skipPublishIfUnchanged": false
+  "skipPublishIfUnchanged": false,
+  "peerDependenciesMeta": {
+    "react-native-svg": {
+      "optional": true
+    }
+  }
 }
