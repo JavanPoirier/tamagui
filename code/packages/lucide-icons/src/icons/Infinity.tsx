@@ -21,7 +21,7 @@ import {
   Use,
   Defs,
   Stop,
-} from 'react-native-svg'
+} from '@tamagui/react-native-svg'
 import { themed } from '@tamagui/helpers-icon'
 
 type IconComponent = (propsIn: IconProps) => JSX.Element
