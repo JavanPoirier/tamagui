@@ -5,9 +5,30 @@ export interface IconStyleProps extends StackStyleBase {
     strokeWidth?: number | SizeTokens;
     color?: string;
 }
+export type DropShadow = {
+    /** Horizontal offset of the shadow in pixels. Defaults to `1`. */
+    dx?: number;
+    /** Vertical offset of the shadow in pixels. Defaults to `1`. */
+    dy?: number;
+    /** Blur radius of the shadow in pixels. Defaults to `3`. */
+    blur?: number;
+    /** Color of the shadow. Defaults to `'rgba(0,0,0,0.3)'`. */
+    color?: string;
+};
 export type NonStyleProps = Omit<SvgProps, keyof IconStyleProps> & {
     disableTheme?: boolean;
     style?: SvgProps['style'];
+    /**
+     * Adds a drop shadow to the icon.
+     *
+     * Pass `true` for a default shadow, or an object to customise
+     * `{ dx, dy, blur, color }`.
+     *
+     * On web this becomes a CSS `filter: drop-shadow(…)`.
+     * On native it applies React Native shadow / elevation styles to the SVG
+     * container view.
+     */
+    dropShadow?: DropShadow | boolean;
 };
 export type IconProps = GetFinalProps<NonStyleProps, IconStyleProps, {}>;
 //# sourceMappingURL=IconProps.d.ts.map
