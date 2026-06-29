@@ -54,14 +54,12 @@ function NestedGroupCase() {
 function GroupFocusCase() {
   return (
     <TamaguiProvider config={config} defaultTheme="light">
-      <View testID="focus-group-root" disableClassName group="focusable" tabIndex={0}>
-        <Text
+      <View testID="focus-group-root" disableClassName group="focusable">
+        <View
           testID="focus-group-child"
           disableClassName
-          $group-focusable-focus={{ color: 'red' }}
-        >
-          child
-        </Text>
+          $group-focusable-focus={{ opacity: 0.5 }}
+        />
       </View>
     </TamaguiProvider>
   )
@@ -86,21 +84,21 @@ describe('group notifications', () => {
     )
   })
 
-  test('$group-{name}-focus applies styles when group parent receives focus', () => {
+  test('$group-{name}-focus applies inline styles when group parent receives focus', () => {
     render(<GroupFocusCase />)
 
     const root = screen.getByTestId('focus-group-root')
     const child = screen.getByTestId('focus-group-child')
 
-    // Before focus: style should not have color red
-    expect(child.style.color).not.toBe('red')
+    // Before focus: $group-focusable-focus style not applied
+    expect(child.style.opacity).not.toBe('0.5')
 
-    // After focus on the group root: style should apply
+    // After the group parent receives focus, child style should activate
     fireEvent.focus(root)
-    expect(child.style.color).toBe('red')
+    expect(child.style.opacity).toBe('0.5')
 
-    // After blur: style should be removed
+    // After blur, child style should be removed
     fireEvent.blur(root)
-    expect(child.style.color).not.toBe('red')
+    expect(child.style.opacity).not.toBe('0.5')
   })
 })

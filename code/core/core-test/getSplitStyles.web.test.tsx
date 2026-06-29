@@ -413,6 +413,18 @@ describe('getSplitStyles', () => {
     expect(rule).not.toContain(':sm')
   })
 
+  test(`group pseudo focus generates :focus selector`, () => {
+    const styles = simplifiedGetSplitStyles(Text, {
+      '$group-frame-focus': {
+        paddingRight: 0,
+      },
+    })
+    const rule = Object.values(styles.rulesToInsert)[0][StyleObjectRules][0]
+
+    expect(rule).toContain(':focus')
+    expect(rule).toContain('.t_group_frame')
+  })
+
   test(`group container queries with multi-part pseudo like focus-visible`, () => {
     // test focus-visible pseudo which has a dash
     const styles = simplifiedGetSplitStyles(Text, {
