@@ -51,6 +51,20 @@ function NestedGroupCase() {
   )
 }
 
+function GroupFocusCase() {
+  return (
+    <TamaguiProvider config={config} defaultTheme="light">
+      <View testID="focus-group-root" disableClassName group="focusable">
+        <View
+          testID="focus-group-child"
+          disableClassName
+          $group-focusable-focus={{ opacity: 0.5 }}
+        />
+      </View>
+    </TamaguiProvider>
+  )
+}
+
 describe('group notifications', () => {
   afterEach(() => {
     vi.restoreAllMocks()
@@ -68,5 +82,23 @@ describe('group notifications', () => {
     expect(consoleError).not.toHaveBeenCalledWith(
       expect.stringContaining('Maximum update depth exceeded')
     )
+  })
+
+  test('$group-{name}-focus applies inline styles when group parent receives focus', () => {
+    render(<GroupFocusCase />)
+
+    const root = screen.getByTestId('focus-group-root')
+    const child = screen.getByTestId('focus-group-child')
+
+    // Before focus: $group-focusable-focus style not applied
+    expect(child.style.opacity).not.toBe('0.5')
+
+    // After the group parent receives focus, child style should activate
+    fireEvent.focus(root)
+    expect(child.style.opacity).toBe('0.5')
+
+    // After blur, child style should be removed
+    fireEvent.blur(root)
+    expect(child.style.opacity).not.toBe('0.5')
   })
 })

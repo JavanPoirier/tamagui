@@ -1,7 +1,7 @@
 import { styled } from '@tamagui/core'
 import { XStack, YStack } from '@tamagui/stacks'
 
-import { SHEET_HANDLE_NAME, SHEET_NAME, SHEET_OVERLAY_NAME } from './constants'
+import { SHEET_HANDLE_NAME, SHEET_FRAME_NAME, SHEET_OVERLAY_NAME } from './constants'
 import { createSheet } from './createSheet'
 
 export { createSheetScope } from './SheetContext'
@@ -86,7 +86,7 @@ export const Overlay = styled(YStack, {
  * -----------------------------------------------------------------------------------------------*/
 
 export const Frame = styled(YStack, {
-  name: SHEET_NAME,
+  name: SHEET_FRAME_NAME,
 
   variants: {
     unstyled: {

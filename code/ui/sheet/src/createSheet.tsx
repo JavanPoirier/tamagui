@@ -17,7 +17,7 @@ import type { ForwardRefExoticComponent, FunctionComponent, RefAttributes } from
 import { forwardRef, memo, useMemo, useEffect, useRef } from 'react'
 import type { View as RNView } from 'react-native'
 import { Platform } from 'react-native'
-import { SHEET_HANDLE_NAME, SHEET_NAME, SHEET_OVERLAY_NAME } from './constants'
+import { SHEET_HANDLE_NAME, SHEET_FRAME_NAME, SHEET_OVERLAY_NAME } from './constants'
 import { getNativeSheet } from './nativeSheet'
 import { useSheetContext } from './SheetContext'
 import { SheetImplementationCustom } from './SheetImplementationCustom'
@@ -162,7 +162,7 @@ export function createSheet<
       },
       forwardedRef
     ) => {
-      const context = useSheetContext(SHEET_NAME, __scopeSheet)
+      const context = useSheetContext(SHEET_FRAME_NAME, __scopeSheet)
       const { hasFit, disableRemoveScroll, frameSize, contentRef, open } = context
       const composedContentRef = useComposedRefs(forwardedRef, contentRef)
       const offscreenSize = useSheetOffscreenSize(context)

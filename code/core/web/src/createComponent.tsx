@@ -1302,7 +1302,10 @@ export function createComponent<
     const runtimeFocusStyle = !disabled && noClass && pseudos?.focusStyle
     const runtimeFocusVisibleStyle = !disabled && noClass && pseudos?.focusVisibleStyle
 
+    const hasDynamicGroupChildren = Boolean(groupName && state.hasDynGroupChildren)
+
     const attachFocus = Boolean(
+      hasDynamicGroupChildren ||
       runtimePressStyle ||
       runtimeFocusStyle ||
       runtimeFocusVisibleStyle ||
@@ -1310,8 +1313,6 @@ export function createComponent<
       onBlur ||
       !!componentContext.setParentFocusState
     )
-
-    const hasDynamicGroupChildren = Boolean(groupName && state.hasDynGroupChildren)
 
     const attachPress = Boolean(
       hasDynamicGroupChildren ||

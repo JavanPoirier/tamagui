@@ -844,6 +844,7 @@ const PopoverContentImpl = React.forwardRef<
       passThrough={context.breakpointActive}
     >
       <PopperContent
+        componentName="PopoverContent"
         scope={scope}
         key={context.contentId}
         data-state={getState(open)}
