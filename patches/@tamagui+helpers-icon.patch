@@ -1,0 +1,22 @@
+diff --git a/dist/esm/themed.native.js b/dist/esm/themed.native.js
+--- a/dist/esm/themed.native.js
++++ b/dist/esm/themed.native.js
+@@ -11,7 +11,7 @@ function themed(Component) {
+     defaultThemeColor: process.env.DEFAULT_ICON_THEME_COLOR || "$color",
+     defaultStrokeWidth: 2,
+     fallbackColor: "#000",
+-    resolveValues: process.env.TAMAGUI_ICON_COLOR_RESOLVE || "auto",
++    resolveValues: process.env.TAMAGUI_ICON_COLOR_RESOLVE || "value",
+     ...optsIn
+   };
+diff --git a/dist/cjs/themed.native.js b/dist/cjs/themed.native.js
+--- a/dist/cjs/themed.native.js
++++ b/dist/cjs/themed.native.js
+@@ -14,7 +14,7 @@ function themed(Component) {
+     defaultThemeColor: process.env.DEFAULT_ICON_THEME_COLOR || "$color",
+     defaultStrokeWidth: 2,
+     fallbackColor: "#000",
+-    resolveValues: process.env.TAMAGUI_ICON_COLOR_RESOLVE || "auto",
++    resolveValues: process.env.TAMAGUI_ICON_COLOR_RESOLVE || "value",
+     ...optsIn
+   };

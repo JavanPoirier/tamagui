@@ -33,7 +33,14 @@ export function themed(Component: FC<IconProps>, optsIn: Options = {}) {
     defaultThemeColor: process.env.DEFAULT_ICON_THEME_COLOR || '$color',
     defaultStrokeWidth: 2,
     fallbackColor: '#000',
-    resolveValues: (process.env.TAMAGUI_ICON_COLOR_RESOLVE as any) || 'auto',
+    // On native, react-native-svg stroke/fill props do not support DynamicColorIOS objects.
+    // When resolveValues is 'auto', iOS with fastSchemeChange returns
+    // {dynamic:{light,dark}} from the theme proxy which SVG cannot render, leaving
+    // icons appearing black. Using 'value' forces resolution to the raw hex value
+    // instead. Icons still re-render on theme change via the theme tracking system.
+    resolveValues:
+      (process.env.TAMAGUI_ICON_COLOR_RESOLVE as any) ||
+      (process.env.TAMAGUI_TARGET === 'native' ? 'value' : 'auto'),
     ...optsIn,
   }
 
